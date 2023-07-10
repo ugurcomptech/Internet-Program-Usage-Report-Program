@@ -51,7 +51,7 @@ Gerekli kütüphaneleri yüklemek için aşağıdaki komutu kullanabilirsiniz:
 
 Hizmet şimdi AlwaysUp aracılığıyla çalışacak ve her gün yeni bir rapor oluşturarak masaüstüne kaydedecektir. Raporlarınızı "internet_kullanim_raporu_<tarih>.docx" dosyaları olarak masaüstünde bulabilirsiniz.
 
-**Not**: Python dosyasını EXE'ye dönüştürmek için aşağıdaki adımları takip edebilirsiniz:
+**Not**: Python dosyasını EXE'ye dönüştürmek gerekebilir. EXE dosyasını oluşturmak için aşağıda ki adımları takip ediniz:
 
 1. Terminali açın ve projenin bulunduğu dizine gidin:
 
