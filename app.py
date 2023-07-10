@@ -1,8 +1,8 @@
 import time
 import win32gui
-import win32process
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, date
+import os
 import matplotlib.pyplot as plt
 from docx import Document
 from docx.shared import Inches
@@ -11,9 +11,9 @@ from docx.shared import Inches
 site_zamanlar = defaultdict(int)
 
 # Programın çalışacağı süreyi belirle (saniye cinsinden)
-program_calisma_suresi = 60
+program_calisma_suresi = 24 * 60 * 60  # 24 saat (24 saat x 60 dakika x 60 saniye)
 
-baslangic_zamani = datetime.now()
+baslangic_zamani = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
 
 print("Program arka planda çalışıyor...")
 
@@ -50,6 +50,10 @@ plt.close()
 doc = Document()
 doc.add_heading('Günlük İnternet Kullanım Raporu', 0)
 
+# Tarih bilgisini ekle
+tarih = baslangic_zamani.date()
+doc.add_paragraph(f"Tarih: {tarih}")
+
 # En çok zaman geçirilen siteleri ekle
 doc.add_heading('En Çok Zaman Geçirilen Siteler & Programlar:', level=1)
 for i, site in enumerate(en_cok_zaman_gecirilen_siteler):
@@ -60,7 +64,13 @@ doc.add_heading('İnternet Kullanım Dağılımı:', level=1)
 doc.add_picture(grafik_dosyasi, width=Inches(6), height=Inches(4))
 
 # Word belgesini kaydet
-rapor_dosyasi = 'internet_kullanim_raporu.docx'
+rapor_dosyasi = f"internet_kullanim_raporu_{tarih}.docx"
 doc.save(rapor_dosyasi)
 
-print("Rapor oluşturuldu:", rapor_dosyasi)
+# Raporu masa üstüne kopyala
+masaustu_kopyasi = os.path.join(os.path.expanduser('~'), 'Desktop', os.path.basename(rapor_dosyasi))
+if os.path.exists(masaustu_kopyasi):
+    os.remove(masaustu_kopyasi)
+os.rename(rapor_dosyasi, masaustu_kopyasi)
+
+print("Rapor oluşturuldu:", masaustu_kopyasi)
